@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.db
+.env
+.env.*
+!.env.example
+# Google service-account keys must never be committed
+*credentials*.json
+*service-account*.json

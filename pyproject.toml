@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "travelswarm"
+version = "0.1.0"
+description = "Multi-agent travel itinerary planner: FastAPI gateway, RabbitMQ, CrewAI workers on Gemini, PostgreSQL."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Nikhil Bhalala" }]
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn>=0.29",
+  "pydantic>=2.6",
+  "pydantic-settings>=2.2",
+  "sqlalchemy>=2.0",
+  "psycopg[binary]>=3.1",
+  "pika>=1.3",
+]
+
+[project.optional-dependencies]
+crew = ["crewai[google-genai]>=1.0"]
+dev = ["pytest>=8", "httpx>=0.27", "ruff>=0.5"]
+
+[project.scripts]
+travelswarm-worker = "travelswarm.worker:main"
+
+[tool.setuptools.packages.find]
+include = ["travelswarm*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "integration: needs real PostgreSQL and RabbitMQ (set DATABASE_URL and RABBITMQ_URL)",
+]
+addopts = "-m 'not integration'"
